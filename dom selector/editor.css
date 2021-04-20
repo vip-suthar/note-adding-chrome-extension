@@ -1,0 +1,19 @@
+.editor#editor{
+    position : relative;
+    top : 10px;
+    left : 10px;
+    width: 50vw;
+    background-color : rgba(165, 165, 165, 0.7);
+    box-shadow : 3px 3px 10px #888888;
+    z-index: 99;
+}
+.textbox{
+	border:solid 1px #cccccc;
+	padding: 20px;
+    width: 90%;
+	min-height:150px;
+}
+#closeEditor{
+    position: absolute;
+    right: 10px;
+}
