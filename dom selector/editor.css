@@ -1,19 +1,47 @@
-.editor#editor{
-    position : relative;
-    top : 10px;
-    left : 10px;
-    width: 50vw;
-    background-color : rgba(165, 165, 165, 0.7);
-    box-shadow : 3px 3px 10px #888888;
+#editorContainer{
+    position: absolute;
+    padding: 5px;
+    width: 30%;
+    border: 1px solid #727272;
+    background-color: #ffffff;
+    box-shadow: 2px 2px 15px #727272a1;
+    height: 30vh;
     z-index: 99;
 }
-.textbox{
-	border:solid 1px #cccccc;
-	padding: 20px;
-    width: 90%;
-	min-height:150px;
+.editorActiveEle{
+   border : 3px solid #fffc56b7;
+}
+#editor{
+    position: relative !important;
+    width: 100%;
+    height: 60% !important;
 }
 #closeEditor{
     position: absolute;
-    right: 10px;
+    padding: 11px 14px;
+    right: 0;
+    top: 0;
+    color: #df4609;
+    cursor: pointer;
+    user-select: none;
+}
+#closeEditor:hover{
+    color: #fdfdfd;
+    background-color: #df4609;
+}
+#setDataBtn{
+    position: absolute;
+    left: 50%;
+    bottom: 2px;
+    transform: translate(-50%);
+    color: #06b640;
+    padding: 10px;
+    background-color: transparent; 
+    border: 2px solid #06b640; 
+    border-radius: 5px;
+    text-transform: uppercase;
+}
+#setDataBtn:hover{
+    color: #eeeeee;
+    background-color: #06b640;
 }
