@@ -1,0 +1,11 @@
+.hoverActive{
+    border: 2px solid #fffb0c !important;
+}
+.editActive{
+    border: 3px solid #27ff14 !important; 
+}
+#editIcon{
+    display: block;
+    position: relative;
+    top: 0;
+}
