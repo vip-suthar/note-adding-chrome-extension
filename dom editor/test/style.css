@@ -1,0 +1,55 @@
+#editor{
+    position: relative;
+    background-color: rgb(255, 255, 255);
+    width: 270px;
+    border-radius: 5px;
+    padding: 8px;
+    box-shadow: 2px 2px 10px #d6d6d6;
+  }
+  #editor #textarea{
+    position: relative;
+    display: block;
+    left: 50%;
+    padding: 8px;
+    transform: translate(-50%);
+    border: 2px solid rgb(209, 209, 209);
+    border-radius: 5px;
+    color: rgb(112, 112, 112);
+    background-color: rgba(209, 209, 209, 0.788);
+    outline: none;
+  }
+  #editor #tools{
+    background-color: aqua;
+    padding: 5%;
+    margin-bottom: 5%;
+  }
+  #editor #tools>*{
+    padding: 2px 5px;
+    cursor: pointer;
+  }
+  #editor #tools input[type="color"], #editor #tools input[type="file"]{
+    display: none;
+  }
+  #editor #textarea:focus{
+    color: transparent;
+    text-shadow: 0 0 0 #000;
+    background-color: rgba(236, 236, 236, 0.548);
+  }
+  #editor button{
+    position: relative;
+    display: block;
+    left: 50%;
+    margin-top: 5px;
+    transform: translate(-50%);
+    color: #06b640;
+    padding: 5px 8px;
+    background-color: transparent; 
+    border: 2px solid #06b640; 
+    border-radius: 5px;
+    text-transform: uppercase;
+    outline: none;
+  }
+  #editor button:hover{
+    color: #eeeeee;
+    background-color: #06b640;
+  }

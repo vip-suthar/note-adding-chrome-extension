@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="./style.css">
+    <script src="./script.js"></script>
+</head>
+<body>
+    <div id="editor">
+        <div id="tools">
+            <span onclick="format('b')"><b>B</b></span>
+            <span onclick="format('i')"><i>I</i></span>
+            <span onclick="format('u')"><u>U</u></span>
+            <span id="tc">A<input type="color"></span>
+            <span id="bgc">A<input type="color"></span>
+            <span onclick="ul(event)"><i class="fas fa-list-ul"></i></span>
+            <span onclick="ol(event)"><i class="fas fa-list-ol"></i></span>
+            <span id="addImg"><i class="far fa-image"></i></span>
+            <input type="file" accept="image/*">
+          </div>
+          <div id="textarea" contenteditable="true">Put your Note Here</div>
+          <button id="addNote">Add</button>
+    </div>
+</body>
+</html>
