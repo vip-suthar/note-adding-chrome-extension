@@ -1,112 +1,137 @@
-var data = {};
+const textEditorActions=()=>{
+  const sel = window.getSelection();
+  const textColor = document.querySelector('#tools>#tc');
+  const backgroundColor = document.querySelector('#tools>#bgc');
+  const textarea = document.querySelector("#textarea"); 
 
-//console.log(document.querySelector("h1").children);
-//console.log(data)
-const elements = document.querySelectorAll("body *");
-
-for (const key in elements) {
-  const element = elements[key];
-  if (key < elements.length) {
-    element.uniqueId = `element_${key}`;
-    var editIcon = document.getElementById("editIcon");
-    element.addEventListener('mouseover', (event)=>{
-      if (event.target.uniqueId) {
-        event.target.classList.add('hoverActive');
-      }
-    });
-    element.addEventListener('mouseout', (event)=>{
-      if (event.target.uniqueId) {
-        event.target.classList.remove('hoverActive');
-      }
-    });
-    
-    element.addEventListener('click', (event)=>{
-      if (event.target.uniqueId) {
-        if (document.querySelector('.editActive')) {
-        document.querySelector('.editActive').classList.remove('editActive');
-      }
-      if(!editIcon){
-        editIcon = document.createElement('span');
-        editIcon.id = "editIcon";
-        editIcon.innerHTML = "Icon";
-      }
-        event.target.classList.add('editActive');
-        event.target.before(editIcon);
-        editIcon.addEventListener("click", ()=>{
-          document.querySelector(".editActive").contentEditable = true;
-          document.querySelector(".editActive").addEventListener('keydown', dataInput)
-        })
-      }  
+  textColor.addEventListener('click',()=>{
+    textColor.children[0].click();
+    textColor.children[0].addEventListener('change',()=>{
+    textColor.style.color= textColor.children[0].value;
+      format('span','style["color"]', textColor.children[0].value );
     })
-  }
-}
+  })
+  backgroundColor.addEventListener('click',()=>{
+    backgroundColor.children[0].click();
+    backgroundColor.children[0].addEventListener('change',()=>{
+      backgroundColor.style.backgroundColor= backgroundColor.children[0].value;
+      format('span','style["backgroundColor"]', backgroundColor.children[0].value )
+    })
+  })
 
 
-// var shift_nums = {
-//   "`":"~", "1":"!", "2":"@", "3":"#", "4":"$", "5":"%", "6":"^", "7":"&","8":"*", "9":"(", "0":")", "-":"_", "=":"+", ";":":", "'":"\"", ",":"<", ".":">", "/":"?",  "\\":"|"
-//   };
-//   //Special Keys - and their codes
-//   var special_keys = {
-//   'esc':27, 'escape':27, 'tab':9,'space':32, 'return':13, 'enter':13, 'backspace':8,
-  
-//   'scrolllock':145,'scroll_lock':145,'scroll':145,'capslock':20,'caps_lock':20,'caps':20,'numlock':144, 'num_lock':144, 'num':144,
-  
-//   'pause':19,'break':19,
-  
-//   'insert':45,'home':36,'delete':46, 'end':35,
-  
-//   'pageup':33,'page_up':33,'pu':33,
-  
-//   'pagedown':34,'page_down':34,'pd':34,
-  
-//   'left':37,'up':38,'right':39,'down':40,
-  
-//   'f1':112,'f2':113,'f3':114, 'f4':115, 'f5':116,'f6':117,'f7':118,'f8':119,'f9':120,'f10':121,'f11':122,'f12':123
-//   }
-  
-//   var modifiers = {
-//   shift: { wanted:false, pressed:false},
-//   ctrl : { wanted:false, pressed:false},
-//   alt  : { wanted:false, pressed:false},
-//   meta : { wanted:false, pressed:false} //Meta is Mac specific
-//   };
-
-function dataInput(event) {
-  event.preventDefault();
-  if (event.keyCode>=65 && event.keyCode<=90) {
-    event.target.innerHTML += event.key;
-  }
-  else if (event.keyCode==8) {
-    event.target.innerHTML=event.target.innerHTML.slice(0,event.target.innerHTML.length-1);
-  }
-  else{
-    console.log(`Special Key ${event.code} Pressed`);
-  }
-  data= htmlToJson(document.querySelector("body"));
-}
-function htmlToJson(html){
-  var tag = {}
-  if (html.tagName) {
-    tag['tagName']=html.tagName;
-  }
-  tag['children'] = [];
-  tag["#text"]= [];
-  for(var i = 0; i< html.childNodes.length;i++){
-    
-    if (html.childNodes[i].nodeName ==="#text") {
-      if (html.childNodes[i].data.trim()!=="" && html.childNodes[i].data.trim()!=="\n" ) {
-        tag["#text"].push(html.childNodes[i].data.trim());
+  document.querySelector('#tools>#addImg').addEventListener('click',()=>{
+    document.querySelector('#tools>input[type="file"]').click();
+    if (sel.rangeCount > 0) {
+      var range = sel.getRangeAt(0);
+      var filesSelected = document.querySelector('#tools>input[type="file"]').files;
+      console.log(filesSelected)
+      if (filesSelected.length > 0 && filesSelected[0].type.match("image.*")) {
+        var fileReader = new FileReader();
+        fileReader.readAsDataURL(filesSelected[0]);
+        fileReader.onload = function(e){
+          var img = document.createElement("img");
+          img.src = e.target.result;
+          img.width="250";
+          img.style.display="block";
+          range.insertNode(img);
+        }
       }
-    } else {
-      tag['children'].push(htmlToJson(html.childNodes[i]));
-    }  
+    }
+  })
+
+  const manualCaret= (add)=>{
+    const caret = document.querySelector("#textarea>span#caret");
+    if(add){
+      if (!caret) {
+        const span = document.createElement('span');
+        span.id="caret";
+        span.innerHTML = "|";
+        setInterval(()=>{
+          span.style.visibility = (span.style.visibility=='hidden') ? 'visible' : 'hidden';
+        }, 200)
+        return span;
+      }
+    }
+    else if (caret){
+      caret.remove();
+    }
   }
-  for(var i = 0; i< html.attributes.length;i++){
-    var attr= html.attributes[i];
-    tag[`@${attr.name}`] = attr.value;
+//adding and removing caret manually
+  textarea.addEventListener('focus',()=>{
+    let range = document.createRange();
+    if (!range.rangeCount) {
+      range.setStart(textarea.lastChild, getCaretCharacterOffset(textarea))
+      range.collapse(true);
+      sel.removeAllRanges();
+      sel.addRange(range)
+    }
+    range.insertNode(manualCaret(1))
+
+  })
+  textarea.addEventListener('blur',()=>{manualCaret();})
+  textarea.addEventListener('click',()=>{
+    manualCaret();
+    let range = document.createRange();
+    if (!range.rangeCount) {
+      range.setStart(textarea.lastChild, getCaretCharacterOffset(textarea.lastChild))
+    }
+    else {
+      range.setStart(range.startContainer, getCaretCharacterOffset(range.startContainer))
+    
+    }
+    range.collapse(true);
+    sel.removeAllRanges();
+    sel.addRange(range)
+    range.insertNode(manualCaret(1));
+  })
+  function getCaretCharacterOffset(element) {
+    var caretOffset = 0;
+    var doc = element.ownerDocument || element.document;
+    var win = doc.defaultView || doc.parentWindow;
+    var sel;
+    if (typeof win.getSelection != "undefined") {
+      sel = win.getSelection();
+      if (sel.rangeCount > 0) {
+          var range = win.getSelection().getRangeAt(0);
+          var preCaretRange = range.cloneRange();
+          preCaretRange.selectNodeContents(element);
+          preCaretRange.setEnd(range.endContainer, range.endOffset);
+          caretOffset = preCaretRange.toString().length;
+      }
+    } else if ( (sel = doc.selection) && sel.type != "Control") {
+      var textRange = sel.createRange();
+      var preCaretTextRange = doc.body.createTextRange();
+      preCaretTextRange.moveToElementText(element);
+      preCaretTextRange.setEndPoint("EndToEnd", textRange);
+      caretOffset = preCaretTextRange.text.length;
+    }
+    return caretOffset;
   }
-  
-  return tag;
- }
- data= htmlToJson(document.querySelector("body"));
+}
+
+
+//code to be verified, not working
+
+/* const format = (command)=>{
+const el = document.querySelector("#textarea");
+var range;
+const sel = window.getSelection();
+if (typeof sel != "undefined") {
+if (sel.rangeCount > 0) {
+    range = sel.getRangeAt(0);
+    let oldContent = document.createTextNode(range.toString());
+    const newElement = document.createElement(command);
+    newElement.append(oldContent);
+    range.deleteContents();
+    range.insertNode(newElement);
+    range.setStart(newElement, 0);
+    range.collapse(true);
+
+    console.log(range.startContainer)
+}
+}
+} */
+
+
  
