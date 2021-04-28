@@ -31,8 +31,8 @@
     display: none;
   }
   #editor #textarea:focus{
-    color: transparent;
-    text-shadow: 0 0 0 #000;
+/*     color: transparent;
+    text-shadow: 0 0 0 #000; */
     background-color: rgba(236, 236, 236, 0.548);
   }
   #editor button{
